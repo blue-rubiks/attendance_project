@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+
+    db:
+      container_name: postgres
+      image: postgres:13
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=password123
+        - PGDATA=/var/lib/postgresql/data/pgdata
+      volumes:
+        - db-data:/var/lib/postgresql/data/pgdata 
+
+    nginx:
+        container_name: nginx-container
+        build: ./nginx
+        restart: always
+        ports:
+        - "80:80"
+        volumes:
+        - api_data:/docker_api
+        - ./log:/var/log/nginx
+        - ./my_htpasswd:/my_htpasswd
+        depends_on:
+        - api
+
+    api:
+        container_name: api-container
+        build: ./api
+        restart: always
+        entrypoint: /docker_api/docker-entrypoint.sh
+        command: uwsgi --ini uwsgi.ini
+        environment:
+          - DJANGO_SUPERUSER_USERNAME=admin
+          - DJANGO_SUPERUSER_PASSWORD=admin1234
+          - DJANGO_SUPERUSER_EMAIL=admin@twtrubiks.com
+        volumes:
+        - api_data:/docker_api
+        depends_on:
+        - db
+
+volumes:
+    api_data:
+    db-data:
+

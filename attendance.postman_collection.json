@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "2549ac5e-d81b-40d2-a537-d13d3397b74d",
+		"name": "attendance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "提供打卡功能",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"employee_number\":12345,\n    \"check_in\": null,\n    \"check_out\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "提供補打卡功能,使漏打上班或下班員工可以進行補打卡",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \n    \"check_in\": \"2022-01-03 14:00:00+00\" ,\n    \"check_out\": \"2022-01-03 16:00:00+00\"    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/2/",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						"2",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "列出所有員工當日資訊(不指定為當天)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "列出指定日期當天所有員工資訊",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/?date=2022-01-05",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						""
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-01-05"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "可以列出指定日期區間未打下班卡的員工",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/no_check_out_employees/?start_date=2022-01-03&end_date=2022-01-06",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						"no_check_out_employees",
+						""
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2022-01-03"
+						},
+						{
+							"key": "end_date",
+							"value": "2022-01-06"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "可以列出指定日期,當天前五名最早打卡上班的員工",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0/api/attendance/earliest_clock_in_employees/?date=2022-01-05",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"path": [
+						"api",
+						"attendance",
+						"earliest_clock_in_employees",
+						""
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-01-05"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
